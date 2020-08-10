@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style type="text/css">
+        table{
+            width: 600px;
+            height: 600px;
+            border-collapse: collapse;
+            margin: 0px auto;
+            background-color: silver;
+        }
+        table td{
+            font-size: 80px;
+            font-weight: bold;
+            text-align: center;
+            color: white;
+        }
+    </style>
+    <script type="text/javascript">
+        var turno = true;
+        var jugador1 ="";
+        var jugador2="";
+        var tablero = ["0","0","0","0","0","0","0","0","0"];
+        var posibles = ["012","345","678","036","147","258","048","246"];
+        
+        function juego(origen){
+            if(tablero[origen.id]=="0"){
+                if(turno){
+                    jugador1+=origen.id;
+                    if(jugador1.length >=3) {
+                        
+                        if(buscar(jugador1)){
+                            alert("Jugador 1 ha ganado");
+                            nuevo();
+                        }
+                    }
+                }else{
+                    jugador2+=origen.id;
+                    if(jugador2.length >=3){
+                        
+                        if(buscar(jugador2)){
+                            alert("Jugador 2 ha ganado");
+                            nuevo();
+                        }
+                    }
+                    
+                }
+                tablero[origen.id]="1";
+                document.getElementById(origen.id).innerHTML=turno==true?"X":"O";
+                turno =! turno;
+                if(jugador2.length+jugador1.length == 9){
+                    alert("Empatados");
+                    nuevo();
+                }
+            }
+        }
+        function buscar(jugada){
+            for(var i = 0; i<posibles.length;i++){
+                var n=0;
+                for(var j=0 ; j<jugada.length;j++){
+                    
+                    if(posibles[i].indexOf(jugada.substring(j,j+1))> -1)n++;
+                }
+                if(n>=3){return true;}
+            }
+            return false;
+        }
+        function nuevo(){
+            var turno = true;
+            var jugador1 ="";
+            var jugador2="";
+            for(var i=0; i<=tablero.length;i++)document.getElementById(i.toString()).innerHTML=".";
+            for(var i=0; i<=tablero.length;i++)tablero[i]="0";
+            alert(tablero[4]);
+        }
+
+    </script>
+</head>
+<body>
+    
+    <table border="4">
+        <tr>
+            <td id="0" onclick="juego(this)"width="33%">.</td>
+            <td id="1" onclick="juego(this)"width="33%">.</td>
+            <td id="2" onclick="juego(this)" width="33%">.</td>
+        </tr>
+        <tr>
+            <td id="3" onclick="juego(this)">.</td>
+            <td id="4" onclick="juego(this)">.</td>
+            <td id="5" onclick="juego(this)">.</td>
+        </tr>
+        <tr>
+            <td id="6" onclick="juego(this)">.</td>
+            <td id="7" onclick="juego(this)">.</td>
+            <td id="8" onclick="juego(this)">.</td>
+        </tr>
+    </table>
+</body>
+</html>
